@@ -1,6 +1,6 @@
 FROM python:3.9
 EXPOSE 8501
-WORKDIR /app
+WORKDIR /app/123
 COPY . .
 RUN sudo apt-get update && sudo apt-get install python3-distutils && pip install -r requirements.txt 
 
