@@ -1,15 +1,16 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
-data = pd.read_csv('temperature_data.csv', parse_dates=['timestamp'])
-
-data['rolling_mean'] = data.groupby('city')['temperature'].transform(lambda x: x.rolling(window=30).mean())
-data['rolling_std'] = data.groupby('city')['temperature'].transform(lambda x: x.rolling(window=30).std())
-data['anomaly'] = (data['temperature'] > data['rolling_mean'] + 2 * data['rolling_std']) | \
-                  (data['temperature'] < data['rolling_mean'] - 2 * data['rolling_std'])
 
 def plot_temperature(city):
+    data = pd.read_csv('./data/temperature_data.csv', parse_dates=['timestamp'])
+    data['rolling_mean'] = data.groupby('city')['temperature'].transform(lambda x: x.rolling(window=30).mean())
+    data['rolling_std'] = data.groupby('city')['temperature'].transform(lambda x: x.rolling(window=30).std())
+    data['anomaly'] = (data['temperature'] > data['rolling_mean'] + 2 * data['rolling_std']) | \
+                    (data['temperature'] < data['rolling_mean'] - 2 * data['rolling_std'])
+
     city_data = data[data['city'] == city]
     plt.figure(figsize=(15, 7))
     plt.plot(city_data['timestamp'], city_data['temperature'], label='Temperature', color='blue')
@@ -20,9 +21,8 @@ def plot_temperature(city):
     plt.xlabel('Date')
     plt.ylabel('Temperature (°C)')
     plt.legend()
-    plt.show()
-
-
+    plt.savefig('temp.png')
+    return Image.open('temp.png')
 
 if __name__ == "__main__":
     df = open_data()

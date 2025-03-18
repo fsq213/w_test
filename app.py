@@ -26,19 +26,17 @@ def show_main_page():
 def process_side_bar_inputs():
     st.sidebar.header('Выберите город для анализа температуры')
     user_input_df = sidebar_input_features()
-
-    train_df = plot_temperature(user_input_df["city"])
+    train_df = plot_temperature(user_input_df)
+    st.image(train_df)
 
 
 def sidebar_input_features():
     city = st.sidebar.selectbox("Город", ("New York", "London","Paris","Tokyo","Moscow","Sydney","Berlin","Beijing","Rio de Janeiro","Dubai","Los Angeles","Singapore","Mumbai","Cairo","Mexico City"))
-    data = {
-        "city": city
-    }
-
-    df = pd.DataFrame(data, index=[0])
-
-    return df
+    #data = {
+    #    "city": city
+    #}
+    #df = pd.DataFrame(data, index=[0])
+    return city
 
 
 if __name__ == "__main__":
